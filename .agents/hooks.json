@@ -1,0 +1,3 @@
+{
+  "onLoopStop": "python .agents/on_loop_stop.py"
+}

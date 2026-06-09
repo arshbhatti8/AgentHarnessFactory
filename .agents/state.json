@@ -1,0 +1,15 @@
+{
+  "current_stage": "PLANNING",
+  "last_updated": "2026-06-09T00:00:00Z",
+  "active_task": {
+    "jira_ticket": "GEN-101",
+    "summary": "Implement user authentication middleware",
+    "status": "TODO",
+    "progress_notes": "Awaiting pipeline trigger. Run jira_mcp_mock.py pull-first-active to start."
+  },
+  "qa_validation": {
+    "tests_passed": false,
+    "build_logs_path": "",
+    "error_summary": ""
+  }
+}
