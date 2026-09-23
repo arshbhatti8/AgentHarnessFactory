@@ -1,0 +1,7 @@
+# Gemini CLI shim. The workflow itself lives in .agents/workflows/startcycle.md.
+description = "Start the Autonomous AI Developer Pipeline sequence with a new idea"
+prompt = """
+Read `.agents/workflows/startcycle.md` and follow it exactly, with this idea as `<idea>`:
+
+{{args}}
+"""

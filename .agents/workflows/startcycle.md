@@ -2,12 +2,29 @@
 description: Start the Autonomous AI Developer Pipeline sequence with a new idea
 ---
 
-When the user types `/startcycle <idea>`, orchestrate the development process strictly using the defined `.agents/skills/`.
+# Workflow: Start Cycle
 
-### Execution Sequence:
-1. Act as the **Product Manager** and execute the `write_specs.md` skill using the `<idea>`.
-   *(Wait for the user to explicitly approve the spec. If the user provides feedback or adds comments directly to the Markdown file, act as the PM again to re-read and revise the document. Loop this step until they type "Approved").*
-2. Shift context, act as the **Software Engineer**, and execute the `generate_code.md` skill.
-3. Shift context, act as the **QA Engineer**, and execute the `audit_code.md` skill.
-4. Shift context, act as the **Version Control Specialist**, and execute the `version_control.md` skill.
-5. Shift context, act as the **DevOps/Build Engineer**, and execute the `build_and_deploy.md` skill.
+Input: `<idea>`, the user's raw feature or application idea (everything after `startcycle`).
+If no idea was given, ask the user for one and stop.
+
+Follow the global rules in `AGENTS.md`. For each stage, read the named skill file and
+execute its instructions in full before moving on.
+
+## Execution Sequence
+
+1. **Product Manager**: execute `.agents/skills/write_specs/SKILL.md` with `<idea>`.
+   - **Approval gate:** Present a summary of the spec and ask the user to review
+     `docs/Technical_Specification.md`. Wait for the reply.
+   - If the user gives feedback (in chat or by editing/commenting in the Markdown file),
+     re-read the file, revise the spec, and ask again.
+   - Repeat until the user replies "Approved" (case-insensitive). Do not continue before that.
+2. **Software Engineer**: execute `.agents/skills/generate_code/SKILL.md`.
+3. **QA Engineer**: execute `.agents/skills/audit_code/SKILL.md`.
+   - If bugs are found, return to step 2 with the bug list, then audit again.
+   - Maximum 5 rounds; after that, stop and escalate to the user.
+4. **Version Control Specialist**: execute `.agents/skills/version_control/SKILL.md`.
+5. **DevOps/Build Engineer**: execute `.agents/skills/build_and_deploy/SKILL.md`.
+6. **Final report**: summarize for the user what was built, where it lives, the commits
+   created, how to run it, and any open issues.
+
+Announce each stage switch on its own line, e.g. `--- Handoff: Software Engineer ---`.
